@@ -17,7 +17,8 @@ export default class ToDoView {
         let newListId = "todo-list-" + newList.id;
         let listElement = document.createElement("div");
         listElement.setAttribute("id", newListId);
-        listElement.setAttribute("class", "todo_button");
+        listElement.setAttribute("class", "todo_button lists_items");
+
         listElement.appendChild(document.createTextNode(newList.name));
         listsElement.appendChild(listElement);
 
@@ -48,6 +49,7 @@ export default class ToDoView {
             let list = lists[i];
             this.appendNewListToView(list);
         }
+
     }
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
@@ -57,23 +59,49 @@ export default class ToDoView {
 
         // GET RID OF ALL THE ITEMS
         this.clearItemsList();
+        let thisController = this.controller;
+
 
         for (let i = 0; i < list.items.length; i++) {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
-            let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
+            let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card lists_items_todo' >"
                                 + "<div class='task-col'>" + listItem.description + "</div>"
-                                + "<div class='due-date-col'>" + listItem.dueDate + "</div>"
-                                + "<div class='status-col'>" + listItem.status + "</div>"
-                                + "<div class='list-controls-col'>"
+                                + "<div class='due-date-col'>" + listItem.dueDate + "</div>";
+            if (listItem.status === "complete"){
+                listItemElement += "<div class='status-col' style='color:#f5bc75' >" + listItem.status + "</div>";
+            }
+            else{
+                listItemElement += "<div class='status-col' style='color:#8ed4f8' >" + listItem.status + "</div>";
+            }
+                                
+                listItemElement += "<div class='list-controls-col'>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
                                 + " <div class='list-item-control material-icons'>close</div>"
                                 + " <div class='list-item-control'></div>"
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";
-            itemsListDiv.innerHTML += listItemElement;
+            itemsListDiv.innerHTML += listItemElement;            
         }
+
+        for (let i = 0; i< list.items.length; i++){
+            thisController.setListItemEventListener(list.items[i].id);
+        }
+        if (list.items.length > 0){
+        let firstItemList = document.getElementById('todo-list-item-'+list.items[0].id);
+        let firstItemUp = firstItemList.childNodes[3].childNodes[1];
+        let lastItemList = document.getElementById('todo-list-item-'+list.items[list.items.length - 1].id);
+        let firstItemDown = lastItemList.childNodes[3].childNodes[3];
+        firstItemUp.classList.add("disable_button");
+        firstItemDown.classList.add("disable_button");
+
+        
+        }
+        // 
+        
+
+        
     }
 
     // THE VIEW NEEDS THE CONTROLLER TO PROVIDE PROPER RESPONSES

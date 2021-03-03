@@ -54,6 +54,8 @@ export default class jsTPS {
         // MANAGE CONCURRENT UPDATES
         this.performingDo = false;
         this.performingUndo = false;
+        document.getElementById("redo-button").classList.add("disable_button");
+        document.getElementById("undo-button").classList.add("disable_button");
     }
 
     /**
@@ -168,6 +170,15 @@ export default class jsTPS {
             this.mostRecentTransaction++;
             this.performingDo = false;
         }
+        console.log(this.toString(),"ToRedo",this.hasTransactionToRedo(),"ToUndo",this.hasTransactionToUndo());
+            document.getElementById("undo-button").classList.remove("disable_button");
+            if (this.hasTransactionToRedo()) {
+                document.getElementById("redo-button").classList.remove("disable_button");
+            }
+            else{
+                document.getElementById("redo-button").classList.add("disable_button");
+            }
+
     }
 
     /**
@@ -181,6 +192,16 @@ export default class jsTPS {
             transaction.undoTransaction();
             this.mostRecentTransaction--;
             this.performingUndo = false;
+        }
+        console.log(this.toString(),"ToRedo",this.hasTransactionToRedo(),"ToUndo",this.hasTransactionToUndo());
+
+        document.getElementById("redo-button").classList.remove("disable_button");
+        if (this.hasTransactionToUndo()){
+            document.getElementById("undo-button").classList.remove("disable_button");
+        }
+        else{
+            document.getElementById("undo-button").classList.add("disable_button");
+
         }
     }
 

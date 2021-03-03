@@ -9,7 +9,7 @@ export default class AddNewItem_Transaction extends jsTPS_Transaction {
         super();
         this.model = initModel;
     }
-
+//
     doTransaction() {
         // MAKE A NEW ITEM
         this.itemAdded = this.model.addNewItem();

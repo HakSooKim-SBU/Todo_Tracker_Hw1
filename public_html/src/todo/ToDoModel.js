@@ -4,6 +4,17 @@ import ToDoList from './ToDoList.js'
 import ToDoListItem from './ToDoListItem.js'
 import jsTPS from '../common/jsTPS.js'
 import AddNewItem_Transaction from './transactions/AddNewItem_Transaction.js'
+import AddRemoveItem_Transaction from './transactions/AddRemoveItem_Transaction.js'
+import AddMoveUpItem_Transaction from './transactions/AddMoveUpItem_Transaction.js'
+import AddMoveDownItem_Transaction from './transactions/AddMoveDownItem_Transaction.js'
+import AddChangingTaskText_Transaction from './transactions/AddChangingTaskText_Transaction.js'
+import AddChangingTaskDueDate_Transaction from './transactions/AddChangingTaskDueDate_Transaction.js'
+import AddChangingTaskStatus_Transaction from './transactions/AddChangingTaskStatus_Transaction.js'
+
+
+
+
+
 
 /**
  * ToDoModel
@@ -75,6 +86,98 @@ export default class ToDoModel {
         let transaction = new AddNewItem_Transaction(this);
         this.tps.addTransaction(transaction);
     }
+//
+    /**
+     * addRemoveItemTransaction
+     * 
+     */
+    addRemoveItemTransaction(listItemidToRemove){
+        let transaction = new AddRemoveItem_Transaction(this,listItemidToRemove);
+        this.tps.addTransaction(transaction);
+    }
+
+    addMoveUpItemTransaction(listItemidToMoveUp){
+        if (this.currentList.getIndexOfItem(listItemidToMoveUp) === 0){
+            console.log("First item cannot move up");
+            return
+        }
+
+        let transaction = new AddMoveUpItem_Transaction(this,listItemidToMoveUp);
+        this.tps.addTransaction(transaction);
+    }
+
+    addMoveDownItemTransaction(listItemidToMoveDown){
+        if (this.currentList.getIndexOfItem(listItemidToMoveDown) === this.currentList.items.length - 1){
+            console.log("last item cannot move down");
+            return
+        }
+
+        let transaction = new AddMoveDownItem_Transaction(this,listItemidToMoveDown);
+        this.tps.addTransaction(transaction);
+
+    }
+
+    addChangingTaskTextTransaction(listitemidToChange, newTaskText){
+        if (this.currentList.getItemAtIndex(this.currentList.getIndexOfItem(listitemidToChange)).getDescription() === newTaskText) {
+            this.view.viewList(this.currentList);
+            return;
+        }
+        let transaction = new AddChangingTaskText_Transaction(this,listitemidToChange,newTaskText);
+        this.tps.addTransaction(transaction);
+    }
+
+    addChangingTaskDueDateTransaction(listitemidToChange, newDueDate){
+        if ((this.currentList.getItemAtIndex(this.currentList.getIndexOfItem(listitemidToChange)).getDueDate() === "No Date" &&
+            newDueDate === "") || (this.currentList.getItemAtIndex(this.currentList.getIndexOfItem(listitemidToChange)).getDueDate() === newDueDate)){
+                this.view.viewList(this.currentList);
+                return;
+            }
+        let transaction = new AddChangingTaskDueDate_Transaction(this,listitemidToChange,newDueDate);
+        this.tps.addTransaction(transaction);
+
+    }
+
+    addChangingTaskStatusTransaction(listitemidToChange,newStatus){
+        if (this.currentList.getItemAtIndex(this.currentList.getIndexOfItem(listitemidToChange)).getStatus() === newStatus){
+                this.view.viewList(this.currentList);
+                return;
+            }
+        let transaction = new AddChangingTaskStatus_Transaction(this,listitemidToChange,newStatus);
+        this.tps.addTransaction(transaction);
+
+    }
+
+    closeList(){
+        this.currentList = null;
+        this.tps = new jsTPS();
+        this.view.clearItemsList();
+        this.view.refreshLists(this.toDoLists);
+        }
+
+
+    removeItemWithdIndexCurrentlist(indexOfItemToRemove){
+        let removed = this.currentList.items.splice(indexOfItemToRemove,1)
+        this.view.viewList(this.currentList);
+        return removed[0]
+    }
+    /**
+     * addItemOnIndexToCurrentlist
+     * 
+     *
+     */
+    addItemOnIndexToCurrentlist(indexOfItemToAdd, itemToAdd){
+    this.currentList.items.splice(indexOfItemToAdd,0,itemToAdd)
+    this.view.viewList(this.currentList);
+
+    }
+    /**
+     * addMoveUpItemTransaction
+     * 
+     */
+
+    
+
+//
 
     /**
      * addNewList
@@ -117,8 +220,21 @@ export default class ToDoModel {
 
     /**
      * Load the items for the listId list into the UI.
-     */
+     */                                                                                 //////////reset transaction !!!!
     loadList(listId) {
+        this.tps = new jsTPS();
+        document.getElementById("close-list-button").classList.remove("disable_button");
+        document.getElementById("delete-list-button").classList.remove("disable_button");
+        document.getElementById("add-item-button").classList.remove("disable_button");
+        document.getElementById("add-list-button").classList.add("disable_button");
+        document.getElementById("redo-button").classList.add("disable_button");
+        document.getElementById("undo-button").classList.add("disable_button");
+        document.getElementById("list-controls-col-header").classList.remove("shrink_controls");
+
+
+
+        
+        
         let listIndex = -1;
         for (let i = 0; (i < this.toDoLists.length) && (listIndex < 0); i++) {
             if (this.toDoLists[i].id === listId)
@@ -128,21 +244,24 @@ export default class ToDoModel {
             let listToLoad = this.toDoLists[listIndex];
             this.currentList = listToLoad;
             this.view.viewList(this.currentList);
+// move current list to the first index
+            let currentList = this.toDoLists[listIndex];
+            if (listIndex > -1){
+                this.toDoLists.splice(listIndex,1);
+            this.toDoLists.unshift(currentList);
+            this.view.refreshLists(this.toDoLists);
+            document.getElementById('todo-list-'+currentList.getId()).classList.add("first_list");
+
         }
     }
 
-    /**
-     * Redo the current transaction if there is one.
-     */
-    redo() {
-        if (this.tps.hasTransactionToRedo()) {
-            this.tps.doTransaction();
-        }
-    }   
+    
+}
+
 
     /**
      * Remove the itemToRemove from the current list and refresh.
-     */
+     */ 
     removeItem(itemToRemove) {
         this.currentList.removeItem(itemToRemove);
         this.view.viewList(this.currentList);
@@ -152,6 +271,7 @@ export default class ToDoModel {
      * Finds and then removes the current list.
      */
     removeCurrentList() {
+        //
         let indexOfList = -1;
         for (let i = 0; (i < this.toDoLists.length) && (indexOfList < 0); i++) {
             if (this.toDoLists[i].id === this.currentList.id) {
@@ -177,4 +297,13 @@ export default class ToDoModel {
             this.tps.undoTransaction();
         }
     } 
+
+    /**
+     * Redo the current transaction if there is one.
+     */
+    redo() {
+        if (this.tps.hasTransactionToRedo()) {
+            this.tps.doTransaction();
+        }
+    }   
 }

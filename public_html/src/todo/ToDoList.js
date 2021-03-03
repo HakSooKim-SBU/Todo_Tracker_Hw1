@@ -60,10 +60,10 @@ export default class ToDoList {
      * 
      * @param {TodoListItem} item Item to search for in the list.
      */
-    getIndexOfItem(item) {
+    getIndexOfItem(itemIDtoFind) {
         for (let i = 0; i < this.items.length; i++) {
             let testItem = this.items[i];
-            if (testItem === item) {
+            if (testItem.getId() === itemIDtoFind) {
                 return i;
             }
         }
