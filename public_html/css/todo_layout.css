@@ -27,11 +27,12 @@
     display: grid;
     grid-template-columns: 49% 51%;
     margin-left: 4%;
-    margin-top: 8.5%;
-    height: 6%;
+    padding-top: 9%;
+    height: 5%;
     margin-right: 0%;
     padding-left: 0%;
-    
+    position: sticky; 
+    top: 0%;      
 }
 #todo-list-header-card{
     height: 8%;
@@ -39,12 +40,14 @@
     font-size: larger;
     width: 98%;
     margin-left: 1%;
+    position: sticky; 
+    top: 0%;  
+    background-color: #40454e;
+
 }
 
 
-#left-sidebar-header-text {
-    
-}
+
 
 #left-sidebar-controls {
     text-align: right;
@@ -69,10 +72,7 @@
 #add-undo-redo-box{
     padding-left: 12%;
 }
-#left-sidebar-header{
-    /* padding-top: 11%; */
 
-}
 #redo-button{
     width:30%
 

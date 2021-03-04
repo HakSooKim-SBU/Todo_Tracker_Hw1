@@ -31,11 +31,12 @@
     padding-bottom: 1.2%;
     margin-top: -1%;
     margin-bottom: -1%;
-    padding-right: 12.3%;
+    padding-right: 0;
     font-size: small;
     color: var(--swatch-text);
-    background-color:rgb(87, 93, 105);
+    background-color: rgb(87, 93, 105);
     font-family: 'Consolas', sans-serif;
+    width: 25%;
     
 }
 #date_input{
@@ -44,11 +45,13 @@
     margin-top: -1%;
     margin-bottom: -1%;
     padding-left: 0%;
-    padding-right: 15.9%;
+    /* padding-right: 15.9%; */
     padding-top: 0%;
     padding-bottom: 0%;
     font-size: small;
     margin-left: 0%;
+    width: 25%;
+
     font-family: 'Consolas', sans-serif;
 }
 
@@ -58,10 +61,12 @@
     margin-top: -1%;
     margin-bottom: -1%;
     padding-left: 0%;
-    padding-right: 16.85%;
+    /* padding-right: 16.85%; */
     padding-top: 0%;
     padding-bottom: 0%;
     font-size: small;
+    width: 25%;
+
     font-family: 'Consolas', sans-serif;
 }
 
@@ -98,8 +103,6 @@
 #left-sidebar-header {
     border-bottom: dotted;
     font-size: 113%;
-    font-size: 113%;
-    margin-top: 8%;
     background-color: var(--swatch-complement);
 }
 
