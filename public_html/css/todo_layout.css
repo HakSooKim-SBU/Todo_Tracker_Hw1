@@ -1,5 +1,5 @@
 #grid-container {
-    position:absolute;
+    position:absolute   ;
     width:100%;
     height:100%;
     display: grid;
@@ -16,23 +16,24 @@
 #left-sidebar {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
-    overflow: auto;
-
     margin-left: 3.5%;
-    margin-bottom: 3.5%;
+    margin-bottom: 8px;
 
+}
+
+#todo-lists-list{
+    overflow: auto;
+    height: 92%;
+    --swatch-primary: #353a44;
+    scrollbar-width: thin;
 }
 
 #left-sidebar-header {
     display: grid;
     grid-template-columns: 49% 51%;
     margin-left: 4%;
-    padding-top: 0%;
     height: 8%;
-    margin-right: 0%;
-    padding-left: 0%;
     position: sticky; 
-    top: 0%;      
 }
 #todo-list-header-card{
     height: 8%;
@@ -41,26 +42,22 @@
     width: 98%;
     margin-left: 1%;
     position: sticky; 
-    top: 0%;  
     background-color: #40454e;
 
 }
-
-
-
 
 #left-sidebar-controls {
     text-align: right;
 }
 
 #workspace {
-    overflow:auto;
+
     grid-column: 2 span 1;
     grid-row: 2 span 1;
     display: flex;
     flex-direction: column;
     margin-right : 0.5%;
-    margin-bottom: 0.5%;
+    margin-bottom: 8px;
 
 }
 
@@ -73,6 +70,8 @@
 #todo-list-items-div{
     display: flex;
     flex-direction: column;
+    overflow:auto;
+    scrollbar-width: thin;
 }
 
 #add-undo-redo-box{
@@ -87,11 +86,9 @@
 #add-list-button{
     width:30%
 
-
 }
 #undo-button{
     width:30%
-
 
 }
 .left-header-buttons{
@@ -107,15 +104,11 @@
 }
 
 .lists_items_todo{
-    padding-top: 1%;
+padding-top: 1%;
 padding-bottom: 1%;
-padding-left: 0%;
-margin-right: 0%;
 margin-left: 1%;
 
 }
-
-
 
 .list-item-card {
     display: flex;
@@ -125,9 +118,8 @@ margin-left: 1%;
 .task_header{
     padding-top: 1.2%;
     padding-bottom: 1%;
-    
-
 }
+
 .task-col {
     width:25%;
 }
@@ -186,7 +178,6 @@ margin-left: 1%;
 
 .modal-header {
     font-family: 'Consolas', sans-serif;
-
     margin: 4%;
     display: flex;
     flex-direction: row;
@@ -197,7 +188,6 @@ margin-left: 1%;
 }
 
 .modal-close {
-
     margin: 2%;
     width: 4%;
     padding-left: 1%;
@@ -212,7 +202,6 @@ margin-left: 1%;
 
 .modal-button {
     font-family: 'Consolas', sans-serif;
-
     color: #e9edf0;
     font-size: 110%;
     background-color: Transparent;

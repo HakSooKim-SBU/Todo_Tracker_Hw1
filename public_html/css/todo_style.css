@@ -14,10 +14,6 @@
     --swatch-text-accent:   #ffc819; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */  
 
     --font-primary:         'Consolas', sans-serif;
-
-    /* overflow: hidden; */
-
-   
 }
 
 #grid-container {
@@ -44,12 +40,7 @@
     background-color: rgb(87, 93, 105);
     margin-top: -1%;
     margin-bottom: -1%;
-    padding-left: 0%;
-    /* padding-right: 15.9%; */
-    padding-top: 0%;
-    padding-bottom: 0%;
     font-size: small;
-    margin-left: 0%;
     width: 25%;
 
     font-family: 'Consolas', sans-serif;
@@ -60,10 +51,6 @@
     background-color: rgb(87, 93, 105);
     margin-top: -1%;
     margin-bottom: -1%;
-    padding-left: 0%;
-    /* padding-right: 16.85%; */
-    padding-top: 0%;
-    padding-bottom: 0%;
     font-size: small;
     width: 25%;
 
